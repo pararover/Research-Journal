@@ -1,0 +1,24 @@
+\newday{2025-09-25}
+	\begin{itemize}
+		\item Started analysis of data for Mrk 501 locally on my laptop.
+
+        \item Installed Heasoft 6.35.2 locally on my PC (running on Ubuntu 22.04 LTS).
+        
+        \item Remote access for CALDB set up in the folder:\\
+        \verb|/home/pararover/Software/astro-soft/caldb|\\
+        which contains the files \verb|alias_config.fits| and \verb|caldb.config|
+
+        \item The \verb|.bashrc| file is appended with the following lines:
+        \begin{verbatim}
+CALDBCONFIG=/home/pararover/Software/astro-soft/caldb/
+    caldb.config; export CALDBCONFIG
+CALDBALIAS=/home/pararover/Software/astro-soft/caldb/
+    alias_config.fits; export CALDBALIAS
+CALDB=https://heasarc.gsfc.nasa.gov/FTP/caldb; export CALDB
+        \end{verbatim}
+
+        \item Data from HEASARC are downloaded and extracted into the following folder:
+        \begin{verbatim}
+/home/pararover/Documents/Research/xray-pol/dataset/mrk-501/01004701
+        \end{verbatim}
+	\end{itemize}

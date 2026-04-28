@@ -1,0 +1,46 @@
+\newday{2025-10-01}
+    \begin{itemize}
+        \item Found this good paper on polarized X-ray emission from a BH XRB named 4U 1630-47\\
+        \url{https://iopscience.iop.org/article/10.3847/2041-8213/acd77b}
+
+        \item For their analysis Rawat \etal\ have used IXPEOBSSIM\\
+        \url{https://ixpeobssim.readthedocs.io/en/latest/index.html}
+
+        \item I intend to explore IXPEOBSSIM further in this direction of research. To this end, I have installed the same on my PC using the command (after running \verb|heainit|):\\
+        \verb|  pip3 install ixpeobssim|
+
+        \item IXPEOBSSIM requires the following Python packages to run:\\
+        \verb|numpy   scipy   matplotlib   astropy   regions   skyfield|
+
+        \item I have upgrade all of the above packages individually by running the command:\\
+        \verb|  pip3 install <<package-name>> --upgrade|
+
+        \item Before proceeding, I need to look into the tutorials provided here:\\
+        \url{https://ixpeobssim.readthedocs.io/en/latest/tutorial.html}
+
+        \item Logs from my tryout of the tutorial:
+        \begin{verbatim}
+>>> import numpy
+>>> 
+>>> from ixpeobssim.config import file_path_to_model_name
+>>> About to create folder /home/pararover/ixpeobssimdata...
+>>> Folder succesfully created.
+>>> About to create folder /home/pararover/ixpeobssimdata/benchmarks...
+>>> Folder succesfully created.
+>>> About to create folder /home/pararover/ixpeobssimauxfiles...
+>>> Folder succesfully created.
+Matplotlib is building the font cache; this may take a moment.
+/home/pararover/.local/lib/python3.10/site-packages/matplotlib/
+    projections/__init__.py:63:
+    UserWarning: Unable to import Axes3D. This may be due to 
+    multiple versions of Matplotlib being installed
+    (e.g. as a system package and as a pip package). As a result,
+    the 3D projection is not available.
+  warnings.warn("Unable to import Axes3D.
+    This may be due to multiple versions of "
+>>> from ixpeobssim.srcmodel.roi import xPointSource, xROIModel
+>>> from ixpeobssim.srcmodel.spectrum import power_law
+>>> from ixpeobssim.srcmodel.polarization import constant
+>>> 
+        \end{verbatim}
+    \end{itemize}

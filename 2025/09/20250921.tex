@@ -1,0 +1,39 @@
+\newday{2025-09-21}
+	\begin{itemize}
+		\item Downloaded the L2 event files for the following dataset:
+		\begin{enumerate}
+			\item \verb|Mrk 501|
+			\item \verb|GX 13+1|
+		\end{enumerate}
+		
+		\item Commands for file transfer using SCP -- from \href{https://contabo.com/blog/how-to-transfer-files-using-ssh/}{Contabo Blog}
+		\item Commands for Mrk 501
+		\begin{itemize}
+			\item Uploaded Mrk 501 \verb|.tar| file from PC to ASSC server:
+			\begin{verbatim}
+	scp E:\Research\x-ray_polarimetry\data\raw\mrk-501.tar
+		paragb@192.168.11.34:/home/paragb/xray-pol/dataset
+			\end{verbatim}
+			
+			\item Navigated to data folder:
+			\begin{verbatim}
+	cd /home/paragb/xray-pol/dataset
+			\end{verbatim}
+			
+			\item Extracted data from the \verb|.tar| file
+			\begin{verbatim}
+	tar -xvf mrk-501.tar
+			\end{verbatim}
+			
+			\item The extracted L2 files are contained in the folder:\\ \verb|/home/paragb/xray-pol/dataset/01004701/event_l2|
+			
+			\item The data folder has been accordingly renamed as:\\
+			\verb|mv -v 01004701/ mrk-501/|
+			
+			\item So the extracted L2 files are now contained in the folder:\\
+			\verb|/home/paragb/xray-pol/dataset/mrk-501/event_l2|
+			
+			\item The \verb|.gz| files are unzipped as:\\
+			\verb|gunzip -v *.gz|
+		\end{itemize}
+	\end{itemize}

@@ -1,0 +1,177 @@
+\newday{2025-09-23}
+	\begin{itemize}
+		\item Began download of Heasoft v6.35.2 from remote server using the following command after opening the terminal in the desired folder.
+        \begin{verbatim}
+wget -v https://heasarc.gsfc.nasa.gov/FTP/
+    software/lheasoft/lheasoft6.35.2/heasoft-6.35.2src.tar.gz
+        \end{verbatim}
+
+        \item Installed MiKTeX using the following commands (\href{https://miktex.org/download}{MiKTeX webpage}):
+        \begin{verbatim}
+curl -fsSL https://miktex.org/download/key |
+    sudo gpg --dearmor -o /usr/share/keyrings/miktex.gpg
+echo "deb [signed-by=/usr/share/keyrings/miktex.gpg]
+    https://miktex.org/download/ubuntu jammy universe" |
+    sudo tee /etc/apt/sources.list.d/miktex.list
+sudo apt-get update
+sudo apt-get install miktex
+miktexsetup finish
+initexmf --set-config-value [MPM]AutoInstall=1
+        \end{verbatim}
+
+        \item Installed TeXstudio using the following commands:
+        \begin{verbatim}
+sudo add-apt-repository ppa:sunderme/texstudio
+sudo apt update
+sudo apt install texstudio
+        \end{verbatim}
+
+        \item The \verb|.tar| data files have been downloaded into the ASSC server at
+        \begin{verbatim}
+/home/paragb/xray-pol/dataset/mrk-501/01004701/
+        \end{verbatim}
+
+        \item All \verb|.gz| files have been extracted in the following folders:
+        \begin{verbatim}
+auxil   event_l1    event_l2    hk
+        \end{verbatim}
+
+        \item To view the images on DS9: \verb|ds9 ixpe01004701_det1_evt2_v01.fits &|
+        \begin{itemize}
+            \item Enhancement of the image:\\
+            \verb|scale| $\rightarrow$ \verb|log|\\
+            \verb|color| $\rightarrow$ \verb|heat|
+
+            \item Creation of a source region:\\
+            In the menu: e.g. \verb|Region| $\rightarrow$ \verb|Shape| $\rightarrow$ \verb|Circle|\\
+            \verb|edit| $\rightarrow$ \verb|region| $\rightarrow$ click + drag to draw the region\\
+            Double-click on region to open the region dialog. Center in \verb|fk5|, radius in \verb|arcsec|.
+
+            \item Creation of a background region:\\
+            In the menu: e.g. \verb|Region| $\rightarrow$ \verb|Shape| $\rightarrow$ \verb|Annulus|\\
+            \verb|edit| $\rightarrow$ \verb|region| $\rightarrow$ click + drag to draw the region\\
+            Double-click on region to open the region dialog. Center in \verb|fk5|, radius in \verb|arcsec|.
+        \end{itemize}
+
+        \item The region files are created in the L2 event folder. These files contain the following:
+        \begin{itemize}
+            \item Inside \verb|src.reg|:
+            \begin{verbatim}
+    circle(16:53:51.766,+39:45:44.41,60.0")
+            \end{verbatim}
+
+            \item Inside \verb|bkg.reg|:
+            \begin{verbatim}
+    circle(16:53:51.766,+39:45:44.41,252.0")
+    -circle(16:53:51.766,+39:45:44.41,132.0")
+            \end{verbatim}
+        \end{itemize}
+
+        \item Extraction of spectra
+        \begin{itemize}
+            \item Initializing \verb|xselect|
+            \begin{verbatim}
+xselect prefix=mrk501
+xsel> read event "ixpe01004701_det1_evt2_v01.fits"
+            \end{verbatim}
+            
+            \item Extracting the source spectra (e.g. detector 1):
+            \begin{verbatim}
+xsel> filter region "src.reg"
+xsel> extract SPEC stokes=NEFF
+xsel> save spec mrk-501_d01_src_
+            \end{verbatim}
+            This creates 3 source spectra files, namely\\
+            \verb|mrk-501_d01_src_I.pha|\\
+            \verb|mrk-501_d01_src_Q.pha|\\
+            \verb|mrk-501_d01_src_U.pha|
+
+            \item Extracting the background spectra (e.g. detector 1):
+            \begin{verbatim}
+xsel> clear region
+xsel> filter region "bkg.reg"
+xsel> extract SPEC stokes=NEFF
+xsel> save spec mrk-501_d01_bkg_
+            \end{verbatim}
+            This creates 3 background spectra files, namely\\
+            \verb|mrk-501_d01_bkg_I.pha|\\
+            \verb|mrk-501_d01_bkg_Q.pha|\\
+            \verb|mrk-501_d01_bkg_U.pha|
+
+            \item Finding the appropriate RMF files:
+            \begin{enumerate}
+                \item Find the observation in the \verb|ixmaster| catalogue using the \href{https://heasarc.gsfc.nasa.gov/cgi-bin/W3Browse/w3browse.pl}{HEASARC search form}
+                \item Copy the entry for the object of interest under the \verb|time| column, e.g. \verb|2022-07-09 23:23:24.082| for the Mrk 501 obs. ID 01004701
+                \item Create a \verb|CALDB| variable that points to the folder containing the IXPE calibration database as
+                \begin{verbatim}
+export CALDB=/home/paragb/caldb
+                \end{verbatim}
+                \item Use the \verb|time| value in the \verb|quzcif| command, for detector unit 1 (\verb|DU1|) of the gas pixel detector instrument (\verb|GPD|), as follows:
+                \begin{verbatim}
+quzcif IXPE GPD DU1 - MATRIX 2022-07-09 23:23:24.082 -
+                \end{verbatim}
+                This would give the following output:
+                \begin{verbatim}
+/home/paragb/caldb/data/ixpe/gpd/cpf/rmf/
+    ixpe_d1_20211209_01.rmf 1
+/home/paragb/caldb/data/ixpe/gpd/cpf/rmf/
+    ixpe_d1_20211209_alpha075_01.rmf 1
+                \end{verbatim}
+                
+                \item We have to use the file whose name contains the string \verb|alpha075| when the events are weighted by either the \verb|NEFF| or \verb|SIMPLE|  weighting schemes. In our case, we used \verb|NEFF| while extracting the source and background spectra and so we can create a soft link to the \verb|alpha075| file as follows:
+                \begin{verbatim}
+ln -s /home/paragb/caldb/data/ixpe/gpd/cpf/rmf/
+    ixpe_d1_20211209_alpha075_01.rmf mrk-501_d01_rmf.fits
+                \end{verbatim}
+                This creates a symbolic link file named \verb|mrk-501_d01_rmf.fits| which can be used as the RMF file in XSPEC later.
+            \end{enumerate}
+
+            \item Creating the MRF (for Q and U spectra) and ARF (for I spectrum) files:
+            \begin{enumerate}
+                \item Sent the following error report to NASA Helpdesk:
+                \begin{verbatim}
+Recently I have been introduced to IXPE science data analysis
+and I have been trying to replicate the results of the
+walkthrough in section 5 of the IXPE quick start analysis guide.
+
+I have been able to successfully generate the I, Q and U
+spectra as described in the aforementioned document.
+However, I am running into an error when I try to create
+the MRF file for the Q and U spectra.
+
+I have copied the attitude file from the /hk folder into
+the /event_l2 folder. The input and output of the console
+are as follows:
+[paragb@localhost event_l2]$ ixpecalcarf \
+> evtfile=ixpe01004701_det1_evt2_v01.fits.gz \
+> attfiles=ixpe01004701_det1_att_v01.fits.gz \
+> arfout=mrk-501_d01.mrf \
+> specfile=none radius=1.0 weight=1 resptype=mrf
+Full path name of a Level 2 attitude file.
+        [ixpe01004701_det1_att_v01.fits]
+        attfiles=ixpe01004701_det1_att_v01.fits.gz
+[Errno 2] No such file or directory: 'none'
+
+The issue persists even when I provide the full path name
+of the attitude file:
+[paragb@localhost event_l2]$ ixpecalcarf \
+> evtfile=ixpe01004701_det1_evt2_v01.fits.gz \
+> attfiles=/home/paragb/xray-pol/dataset/mrk-501/
+    01004701/event_l2/ixpe01004701_det1_att_v01.fits.gz \
+> arfout=mrk-501_d01.mrf \
+> specfile=none radius=1.0 weight=1 resptype=mrf
+Full path name of a Level 2 attitude file.
+    [attfiles=ixpe01004701_det1_att_v01.fits.gz]
+        /home/paragb/xray-pol/dataset/mrk-501/01004701/event_l2/
+        ixpe01004701_det1_att_v01.fits.gz
+[Errno 2] No such file or directory: 'none'
+
+I am bamboozled because I have followed the exact same steps
+as given in the document. I am unable to figure out as
+to where I have been going wrong.
+
+I would be grateful to receive advice from you in this matter.
+                \end{verbatim}
+            \end{enumerate}
+        \end{itemize}
+	\end{itemize}

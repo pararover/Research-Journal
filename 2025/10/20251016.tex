@@ -1,0 +1,241 @@
+\newday{2025-10-16}
+    \begin{itemize}
+        \item The solution provided by the IXPE Helpdesk is working.
+
+        \item Was able to run \verb|ixpecalcarf| to generate MRF files for D01, D02 and D03.
+
+        \item However, the following warning appeared:
+        \begin{verbatim}
+pararover@shadowfax: ixpecalcarf \
+> evtfile=ixpe01004701_det2_evt2_v01.fits \
+> attfiles=ixpe01004701_det2_att_v01.fits \
+> arfout=mrk-501_d02.mrf \
+> specfile=none radius=1.0 weight=1 resptype=mrf
+/home/pararover/.local/lib/python3.10/site-packages/matplotlib/
+projections/__init__.py:63: UserWarning: Unable to import Axes3D.
+This may be due to multiple versions of Matplotlib being
+installed (e.g. as a system package and as a pip package). As a
+result, the 3D projection is not available.
+  warnings.warn("Unable to import Axes3D. This may be due to
+  multiple versions of "
+        \end{verbatim}
+
+        \item The \verb|ixpecalarf| task has been run as follows:
+        \begin{enumerate}
+            \item For detector \#1:
+
+            \textbf{To generate an MRF (for $Q$ and $U$ spectra):}
+            \begin{verbatim}
+pararover@shadowfax: ixpecalcarf \
+> evtfile=ixpe01004701_det1_evt2_v01.fits \
+> attfiles=ixpe01004701_det1_att_v01.fits \
+> arfout=mrk-501_d01_QU.mrf \
+> specfile=none radius=1.0 weight=1 resptype=mrf
+            \end{verbatim}
+
+            \textbf{To generate an ARF (for $I$ spectrum):}
+            \begin{verbatim}
+pararover@shadowfax: ixpecalcarf \
+> evtfile=ixpe01004701_det1_evt2_v01.fits \
+> attfiles=ixpe01004701_det1_att_v01.fits \
+> arfout=mrk-501_d01_I.arf \
+> specfile=none radius=1.0 weight=1 resptype=arf
+            \end{verbatim}
+
+            \item For detector \#2:
+
+            \textbf{To generate an MRF (for $Q$ and $U$ spectra):}
+            \begin{verbatim}
+pararover@shadowfax: ixpecalcarf \
+> evtfile=ixpe01004701_det2_evt2_v01.fits \
+> attfiles=ixpe01004701_det2_att_v01.fits \
+> arfout=mrk-501_d02_QU.mrf \
+> specfile=none radius=1.0 weight=1 resptype=mrf
+            \end{verbatim}
+
+            \textbf{To generate an ARF (for $I$ spectrum):}
+            \begin{verbatim}
+pararover@shadowfax: ixpecalcarf \
+> evtfile=ixpe01004701_det2_evt2_v01.fits \
+> attfiles=ixpe01004701_det2_att_v01.fits \
+> arfout=mrk-501_d02_I.arf \
+> specfile=none radius=1.0 weight=1 resptype=arf
+            \end{verbatim}
+
+            \item For detector \#3:
+
+            \textbf{To generate an MRF (for $Q$ and $U$ spectra):}
+            \begin{verbatim}
+pararover@shadowfax: ixpecalcarf \
+> evtfile=ixpe01004701_det3_evt2_v01.fits \
+> attfiles=ixpe01004701_det3_att_v01.fits \
+> arfout=mrk-501_d03_QU.mrf \
+> specfile=none radius=1.0 weight=1 resptype=mrf
+            \end{verbatim}
+
+            \textbf{To generate an ARF (for $I$ spectrum):}
+            \begin{verbatim}
+pararover@shadowfax: ixpecalcarf \
+> evtfile=ixpe01004701_det3_evt2_v01.fits \
+> attfiles=ixpe01004701_det3_att_v01.fits \
+> arfout=mrk-501_d03_I.arf \
+> specfile=none radius=1.0 weight=1 resptype=arf
+            \end{verbatim}
+        \end{enumerate}
+
+        \item The list of necessary files for detector \#1 are:
+        \begin{verbatim}
+mrk-501_d01_src_I.pha
+mrk-501_d01_src_Q.pha
+mrk-501_d01_src_U.pha
+mrk-501_d01_bkg_I.pha
+mrk-501_d01_bkg_Q.pha
+mrk-501_d01_bkg_U.pha
+mrk-501_d01.rmf -> ixpe_d1_20211209_alpha075_01.rmf
+mrk-501_d01_I.arf
+mrk-501_d01_QU.mrf
+        \end{verbatim}
+
+        \item The list of necessary files for detector \#2 are:
+        \begin{verbatim}
+mrk-501_d02_src_I.pha
+mrk-501_d02_src_Q.pha
+mrk-501_d02_src_U.pha
+mrk-501_d02_bkg_I.pha
+mrk-501_d02_bkg_Q.pha
+mrk-501_d02_bkg_U.pha
+mrk-501_d02.rmf -> ixpe_d2_20211209_alpha075_01.rmf
+mrk-501_d02_I.arf
+mrk-501_d02_QU.mrf
+        \end{verbatim}
+
+        \item The list of necessary files for detector \#3 are:
+        \begin{verbatim}
+mrk-501_d03_src_I.pha
+mrk-501_d03_src_Q.pha
+mrk-501_d03_src_U.pha
+mrk-501_d03_bkg_I.pha
+mrk-501_d03_bkg_Q.pha
+mrk-501_d03_bkg_U.pha
+mrk-501_d03.rmf -> ixpe_d2_20211209_alpha075_01.rmf
+mrk-501_d03_I.arf
+mrk-501_d03_QU.mrf
+        \end{verbatim}
+        
+        \item Commands for spectrum file grouping of detector \#1:
+        \begin{enumerate}
+        	\item For $I$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d01_src_I.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d01_bkg_I.pha'" longstring=YES
+
+fthedit mrk-501_d01_src_I.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d01.rmf'" longstring=YES
+
+fthedit mrk-501_d01_src_I.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d01_I.arf'" longstring=YES
+        	\end{verbatim}
+        	
+        	\item For $Q$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d01_src_Q.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d01_bkg_Q.pha'" longstring=YES
+
+fthedit mrk-501_d01_src_Q.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d01.rmf'" longstring=YES
+
+fthedit mrk-501_d01_src_Q.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d01_QU.mrf'" longstring=YES
+        	\end{verbatim}
+        	
+        	\item For $U$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d01_src_U.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d01_bkg_U.pha'" longstring=YES
+
+fthedit mrk-501_d01_src_U.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d01.rmf'" longstring=YES
+
+fthedit mrk-501_d01_src_U.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d01_QU.mrf'" longstring=YES
+        	\end{verbatim}
+        \end{enumerate}
+        
+        \item Commands for spectrum file grouping of detector \#2:
+        \begin{enumerate}
+        	\item For $I$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d02_src_I.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d02_bkg_I.pha'" longstring=YES
+
+fthedit mrk-501_d02_src_I.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d02.rmf'" longstring=YES
+
+fthedit mrk-501_d02_src_I.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d02_I.arf'" longstring=YES
+        	\end{verbatim}
+        	
+        	\item For $Q$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d02_src_Q.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d02_bkg_Q.pha'" longstring=YES
+
+fthedit mrk-501_d02_src_Q.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d02.rmf'" longstring=YES
+
+fthedit mrk-501_d02_src_Q.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d02_QU.mrf'" longstring=YES
+        	\end{verbatim}
+        	
+        	\item For $U$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d02_src_U.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d02_bkg_U.pha'" longstring=YES
+
+fthedit mrk-501_d02_src_U.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d02.rmf'" longstring=YES
+
+fthedit mrk-501_d02_src_U.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d02_QU.mrf'" longstring=YES
+        	\end{verbatim}
+        \end{enumerate}
+        
+        \item Commands for spectrum file grouping of detector \#3:
+        \begin{enumerate}
+        	\item For $I$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d03_src_I.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d03_bkg_I.pha'" longstring=YES
+
+fthedit mrk-501_d03_src_I.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d03.rmf'" longstring=YES
+
+fthedit mrk-501_d03_src_I.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d03_I.arf'" longstring=YES
+        	\end{verbatim}
+        	
+        	\item For $Q$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d03_src_Q.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d03_bkg_Q.pha'" longstring=YES
+
+fthedit mrk-501_d03_src_Q.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d03.rmf'" longstring=YES
+
+fthedit mrk-501_d03_src_Q.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d03_QU.mrf'" longstring=YES
+        	\end{verbatim}
+        	
+        	\item For $U$ spectrum:
+        	\begin{verbatim}
+fthedit mrk-501_d03_src_U.pha keyword=BACKFILE operation=add \
+value=" 'mrk-501_d03_bkg_U.pha'" longstring=YES
+
+fthedit mrk-501_d03_src_U.pha keyword=RESPFILE operation=add \
+value=" 'mrk-501_d03.rmf'" longstring=YES
+
+fthedit mrk-501_d03_src_U.pha keyword=ANCRFILE operation=add \
+value=" 'mrk-501_d03_QU.mrf'" longstring=YES
+        	\end{verbatim}
+        \end{enumerate}
+    \end{itemize}

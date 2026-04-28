@@ -1,0 +1,17 @@
+\newday{2025-09-22}
+	\begin{itemize}
+		\item Downloaded the relevant CALDB files for IXPE to the ASSC server using the commands
+        \begin{verbatim}
+    export CALDB=/home/paragb/caldb/
+    cd $CALDB
+    wget -v https://heasarc.gsfc.nasa.gov/FTP/caldb/data/
+                ixpe/gpd/goodfiles_ixpe_gpd_20250225.tar.gz
+    wget -v https://heasarc.gsfc.nasa.gov/FTP/caldb/data/
+                ixpe/xrt/goodfiles_ixpe_xrt_20241028.tar.gz
+    gunzip -v goodfiles_*.gz
+    tar -xvf goodfiles_*.tar
+    rm -rv goodfiles_*.tar
+        \end{verbatim}
+
+        \item Downloaded the data \verb|.tar| files for Mrk 501 directly to the ASSC server. 
+	\end{itemize}
