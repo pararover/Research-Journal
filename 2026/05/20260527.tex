@@ -23,4 +23,50 @@
 			\item \verb|ixpe02006801_det2_att_v01.fits|
 			\item \verb|ixpe02006801_det3_att_v01.fits|
 		\end{itemize}
+		
+		\item As per \SS{2.1} in \href{https://www.aanda.org/articles/aa/pdf/2024/08/aa50207-24.pdf}{Bobrikova \textit{et al.} (2024)}, the ``source photons were selected in a circular region with a radius of 100" centered at the source position.''.
+		
+		\item To obtain the source region, we need to open any of the L2 event files using DS9. For this, we have to navigate to the \verb|event_l2/| folder and open any of the files from detector 1, 2 or 3 using DS9, i.e.
+		\begin{verbatim}
+			ds9 ixpe02006801_det1_evt2_v01.fits &
+		\end{verbatim}
+		\begin{center}
+			or
+		\end{center}
+		\begin{verbatim}
+			ds9 ixpe02006801_det2_evt2_v01.fits &
+		\end{verbatim}
+		\begin{center}
+			or
+		\end{center}
+		\begin{verbatim}
+			ds9 ixpe02006801_det3_evt2_v01.fits &
+		\end{verbatim}
+		
+		\item Suppose we choose the file \verb|ixpe02006801_det1_evt2_v01.fits|. Upon opening in DS9, we obtain as follows:
+		\begin{center}
+			\includegraphics[width=0.45\textwidth]{2026/figures/fig_reg-ds9-01.png}
+		\end{center}
+		
+		\item Following the DS9 steps from Sep. 23, 2025 (Tuesday), on page 4, we obtain an enhancement of the image as follows:
+		\begin{center}
+			\includegraphics[width=0.45\textwidth]{2026/figures/fig_reg-ds9-02.png}
+		\end{center}
+		
+		\item The source region is obtained by clicking on the centroid position and dragging to obtain a circle enclosing the source as follows:
+		\begin{center}
+			\includegraphics[width=0.45\textwidth]{2026/figures/fig_reg-ds9-03.png}
+		\end{center}
+		
+		\item Double-clicking on the circular region opens the regions dialog. We have to ensure that the \verb|Center| is in \verb|fk5| and the \verb|radius| is in \verb|arcsec|. Then we type 100 in the \verb|radius| textbox to ensure that the source region inside is of radius 100". Then click \verb|Apply|, followed by \verb|Close|.
+		\begin{center}
+			\includegraphics[width=0.45\textwidth]{2026/figures/fig_reg-ds9-04.png}
+		\end{center}
+		
+		
+		\item So we have to create a source region file named \verb|src.reg| in the \verb|event_l2/| folder. The file \verb|src.reg| has the following contents copied and pasted from the regions dialog:
+		\begin{verbatim}
+			circle(18:14:30.0820,-17:09:23.873,100.0")
+		\end{verbatim}
+		
 	\end{itemize}
