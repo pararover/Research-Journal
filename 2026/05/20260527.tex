@@ -1,4 +1,26 @@
 \newday{2026-05-27}
 	\begin{itemize}
 		\item Checked my VPN and ASSC account credentials at the HPC facility in IUCAA which have been lying dormant for quite some time -- both are working fine.
+		
+		\item For GX13+1 I had downloaded the data corresponding to the ObsID 02006801.
+		
+		\item Extracted from the \verb|.tar| file to find the following folder hierarchy:
+		\begin{itemize}
+			\item \verb|02006801|
+			\begin{itemize}
+				\item \verb|auxil/|
+				\item \verb|event_l1/|
+				\item \verb|event_l2/|
+				\item \verb|hk/|
+			\end{itemize}
+		\end{itemize}
+		
+		\item We need to \verb|gunzip| all the files in each of the sub-folders above.
+		
+		\item In addition, we need to copy the following files from the \verb|hk/| folder and paste into the \verb|event_l2/| folder:
+		\begin{itemize}
+			\item \verb|ixpe02006801_det1_att_v01.fits|
+			\item \verb|ixpe02006801_det2_att_v01.fits|
+			\item \verb|ixpe02006801_det3_att_v01.fits|
+		\end{itemize}
 	\end{itemize}
