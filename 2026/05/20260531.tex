@@ -1,0 +1,105 @@
+\newday{2026-05-31}
+	Reducing IXPE science data for analysis
+	\begin{itemize}
+		\item Obtaining the attitude files
+		\begin{enumerate}
+			\item Go to the \verb|hk/| folder and copy-paste the following attitude files into the \verb|event_l2/| folder
+			\begin{verbatim}
+ixpe*_det?_att_v01.fits
+			\end{verbatim}
+		\end{enumerate}
+		
+		\item Selecting the source and background regions
+		\begin{enumerate}
+			\item Go to the \verb|event_l2/| folder and open any of the L2 event files using DS9
+			\begin{verbatim}
+ixpe*_det?_evt2_v01.fits
+			\end{verbatim}
+			
+			\item Draw a circular source region with centroid at the location of the source and with radius in arcsec as per literature.
+			
+			\item Create a region file, such as \verb|src.reg| and type the region info with coordinates in fk5 format and radius in arcseconds.
+		\end{enumerate}
+		
+		\item Extracting the source and background photons
+		\begin{enumerate}
+			\item We need to use xselect for this task.
+			
+			\item Make use of the steps mentioned in the journal entry dated 23 Sep. 2025 (Tuesday).
+			
+			\item This would create the I, Q and U spectra files for all 3 detectors, i.e. a total of 9 files.
+		\end{enumerate}
+		
+		\item Obtain the relevant RMF file
+		\begin{enumerate}
+			\item Obtain the observation using the HEASARC search form.
+			
+			\item Locate the row containing the ObsID of interest.
+			
+			\item Copy the entry under the time column for that row.
+			
+			\item Ensure that the CALDB variable points to the calibration database with the following command on the Terminal:
+			\begin{verbatim}
+echo $CALDB
+			\end{verbatim}			
+			if everything is right, then we will get an output such as the following:
+			\begin{verbatim}
+https://heasarc.gsfc.nasa.gov/FTP/caldb
+			\end{verbatim}
+			which is the remote CALDB host at HEASARC.
+			
+			\item If the above does not appear, then set the CALDB variable with the following command:
+			\begin{verbatim}
+export CALDB=https://heasarc.gsfc.nasa.gov/FTP/caldb
+			\end{verbatim}
+			or add the above line in the \verb|.bashrc| file and compile it.
+			
+			\item Use the time value obtained in step 3 above in the \verb|quzcif| command. An example is as follows
+			\begin{verbatim}
+quzcif IXPE GPD DU1 - MATRIX 2023-10-17 16:41:45.850 -
+			\end{verbatim}
+			where \verb|GPD DU1| implies detector unit 1 of the gas pixel detector instrument. For detectors 2 and 3, we have to write \verb|DU2| and \verb|DU3| respectively, everything else remaining the same.
+			
+			\item After \verb|quzcif| has completed its run, it would give a list of FTP locations of 2 files.
+			
+			\item Download the \verb|alpha075| file using the \verb|wget| command as follows:
+			\begin{verbatim}
+wget -v <<FTP URL>>
+			\end{verbatim}
+			For example:
+			\begin{verbatim}
+wget -v https://heasarc.gsfc.nasa.gov/FTP/caldb/data/ixpe/
+gpd/cpf/rmf/ixpe_d3_20211209_alpha075_01.rmf
+			\end{verbatim}
+			
+			\item Create soft links to these downloaded files, so that it is easier to refer to them, as follows
+			\begin{verbatim}
+ln -s <<file name>> <<link name>>
+			\end{verbatim}
+			For example:
+			\begin{verbatim}
+ln -s ixpe_d2_20211209_alpha075_01.rmf gx13_d02_rmf.fits
+			\end{verbatim}
+			following which we can use \verb|'gx13_d02_rmf.fits'| as an alias\\ for \verb|'ixpe_d2_20211209_alpha075_01.rmf'|.
+		\end{enumerate}
+		
+		\item Generate the ARF/MRF files
+		\begin{enumerate}
+			\item We need to use \verb|ixpecalcarf| for this task.
+			
+			\item A helpful trick is to list the relevant event file and attitude files first using the following commands. For example, in case of detector 1:
+			\begin{verbatim}
+ls det1_evt2
+ls det1_att
+			\end{verbatim}
+			
+			\item Then run the \verb|ixpecalcarf| as per steps mentioned in journal entry dated 16 Oct. 2025 (Thursday).
+		\end{enumerate}
+		
+		\item Group the spectrum files
+		\begin{enumerate}
+			\item We need to use \verb|fthedit| for this task.
+			
+			\item Run the \verb|fthedit| as per steps mentioned in journal entry dated 16 Oct. 2025 (Thursday).
+		\end{enumerate}
+	\end{itemize}
