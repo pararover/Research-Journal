@@ -27,7 +27,7 @@ ixpe*_det?_evt2_v01.fits
 			
 			\item Make use of the steps mentioned in the journal entry dated \hyperref[entry:20250923]{23 Sep. 2025 (Tuesday)}.
 			
-			\item This would create the I, Q and U spectra files for all 3 detectors, i.e. a total of 9 files.
+			\item This would create the $I$, $Q$ and $U$ spectra files for all 3 detectors, i.e. a total of 9 files.
 		\end{enumerate}
 		
 		\item Obtain the relevant RMF file
@@ -36,7 +36,7 @@ ixpe*_det?_evt2_v01.fits
 			
 			\item Locate the row containing the \verb|ObsID| of interest.
 			
-			\item Copy the entry under the time column for that row.
+			\item Copy the entry under the \verb|time| column for that row.
 			
 			\item Ensure that the CALDB variable points to the calibration database with the following command on the Terminal:
 			\begin{verbatim}
@@ -62,7 +62,7 @@ quzcif IXPE GPD DU1 - MATRIX 2023-10-17 16:41:45.850 -
 			
 			\item After \verb|quzcif| has completed its run, it would give a list of FTP locations of 2 files.
 			
-			\item Download the \verb|alpha075| file using the \verb|wget| command as follows:
+			\item Download the file whose name contains the string \verb|'alpha075'| using the \verb|wget| command as follows:
 			\begin{verbatim}
 wget -v <<FTP URL>>
 			\end{verbatim}
