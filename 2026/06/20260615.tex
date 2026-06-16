@@ -1,0 +1,60 @@
+\newday{2026-06-15}
+	\begin{itemize}
+		\item Started the analysis of the 2024-02-25 data from IXPE.
+		
+		\item Providing a walkthrough of the steps below.
+	\end{itemize}
+	
+	\subsubsection*{Background rejection filter}
+		In Section 2.1 (IXPE), \href{https://www.aanda.org/articles/aa/pdf/2024/08/aa50207-24.pdf}{Bobrikova \textit{et al.} (2024)} state that they adopted the weighted analysis for their spectro-polarimetric study, following the baseline established by \href{https://iopscience.iop.org/article/10.3847/1538-3881/ac51c9/pdf}{Di Marco \textit{et al.} (2022a)}. This weighted scheme (using $w_k=\alpha^{0.75}$) is designed to improve polarimetric sensitivity by prioritizing well-reconstructed photoelectron tracks.
+		
+		\href{https://www.aanda.org/articles/aa/pdf/2024/08/aa50207-24.pdf}{Bobrikova \textit{et al.} (2024)} also notes that they followed the recommendations of \href{https://iopscience.iop.org/article/10.3847/1538-3881/acba0f/pdf}{Di Marco \textit{et al.} (2023b)} regarding background handling. While they did not subtract the background due to the source's brightness, they did utilize the background rejection strategy described in that source to improve the quality of their data.
+		
+		As per \href{https://arxiv.org/pdf/2604.03366}{The Hitchhiker's Guide to IXPE Data Analysis} and \href{https://heasarc.gsfc.nasa.gov/docs/ixpe/analysis/ixpe_quickstart.pdf}{IXPE Quick Start Data Analysis Guide} both, we can know if the background-rejection algorithm was applied in the pipeline by checking if the FITS header keyword \verb|XPFLGBGD=T| has been included in the \verb|EVENTS| extension of the L2 event file. We can do this in two different ways:
+		\begin{enumerate}
+			\item Using the \verb|fkeyprint| command in the Terminal, for example as\\
+			\verb|fkeyprint ./event_l2/ixpe03001101_det1_evt2_v01.fits XPFLGBGD|\\
+			The output did not return \verb|XPFLGBGD=T| and hence the background rejection algorithm was not applied.
+			
+			\item Using the \verb|fv| command, we can click on the \verb|Header| buttons, then manually search for \verb|XPFLGBGD=T| in the Primary, EVENTS and GTI entension headers.
+		\end{enumerate}
+		Hence, we have to manually perform the background rejection. Given below are the steps to do so:
+		\begin{itemize}
+			\item The Python script named \verb|filter_background.py| is available on the \href{https://github.com/aledimarco/IXPE-background}{GitHub page of IXPE-background}.
+			
+			\item I have downloaded \verb|filter_background.py| and placed it locally at\\ 
+			\verb|~/AstroDA/xray-pol/scripts/|
+			
+			\item Then I ran the script as follows:
+			\begin{verbatim}
+python3 ~/AstroDA/xray-pol/scripts/filter_background.py
+./event_l2/ixpe03001101_det1_evt2_v01.fits
+./event_l1/ixpe03001101_det1_evt1_v01.fits --output rej
+			\end{verbatim}
+			
+			\item I repeated the above step for detectors 2 and 3.
+			
+			\item This produced three background-rejected event files in the \verb|/event_l2| folder with \verb|_rej| appended to the existing filename.
+		\end{itemize}
+		
+		\textbf{Note:} Other scripts can be obtained from the \href{https://heasarc.gsfc.nasa.gov/docs/ixpe/analysis/contributed.html}{Contributed IXPE Software} page.
+		
+	\subsubsection*{Defining selection region}
+		\href{https://www.aanda.org/articles/aa/pdf/2024/08/aa50207-24.pdf}{Bobrikova \textit{et al.} (2024)} used a circular region of radius $100''$ with GX 13+1 at the centroid position. To do so in a similar manner here, we need to open the filtered \verb|_rej| event files on DS9.
+		
+		\textit{Problem}: However, when I ran the command\\
+		\verb|ds9 ./event_l2/ixpe03001101_det1_evt2_v01_rej.fits &|
+		I encountered the following error:
+		\begin{verbatim}
+Error in startup script: can't find package base64
+while executing
+"package require base64"
+(file "/usr/share/saods9/library/ds9.tcl" line 216)
+		\end{verbatim}
+		\textit{Fix}: We can bypass this issue by telling the Terminal to ignore HEASoft's library paths just for the brief moment it launches DS9. To do so, I modified the above command as follows:\\
+		\verb|env -u LD_LIBRARY_PATH ds9 ./event_l2/ixpe03001101_det1_evt2_v01_rej.fits &|
+		
+	\subsubsection*{Data files for analysis}
+		The $I$, $Q$ and $U$ PHA files were extracted using \verb|Xselect| as described in the journal entry dated \hyperref[entry:20250923]{23 Sep. 2025 (Tuesday)}.
+		
+		The ARF/MRF and RMF files were created using the \verb|ixpecalcarf| and \verb|quzcif| tasks respectively.
