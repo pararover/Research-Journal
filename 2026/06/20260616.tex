@@ -1,0 +1,23 @@
+\newday{2026-06-16}
+	\begin{itemize}
+		\item Continuation of the walkthrough follows.
+	\end{itemize}
+	
+	\subsubsection*{Association of file headers}
+		The various files were renamed using a simpler convention as follows:
+		\begin{itemize}
+			\item The source spectra files are renamed as, for example for detector 1:\\
+			\verb|d1_I.src		d1_Q.src		d1_U.src|
+			
+			\item The background spectra files are renamed as, for example for detector 1:\\
+			\verb|d1_I.bkg		d1_Q.bkg		d1_U.bkg|
+			
+			\item The ARF file is renamed as, for example for detector 1: \verb|d1.arf|
+			
+			\item The MRF file is renamed as, for example for detector 1: \verb|d1.mrf|
+			
+			\item A soft link is created for the appropriate RMF file as, for example for detector 1:
+			\begin{verbatim}
+d1.rmf -> ixpe_d1_20211209_alpha075_01.rmf
+			\end{verbatim}
+		\end{itemize}
