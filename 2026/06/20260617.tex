@@ -1,0 +1,166 @@
+\newday{2026-06-17}
+	\begin{itemize}
+		\item Continuation of the walkthrough follows.
+	\end{itemize}
+	
+	\subsubsection*{Association of file headers}
+		The various files are associated with the source spectrum file as follows.
+		
+		\textbf{Detector 1:}
+		\begin{multicols}{3}
+			\begin{verbatim}
+fthedit d1_I.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d1.rmf' \
+> longstring=YES
+
+fthedit d1_I.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d1.arf' \
+> longstring=YES
+			\end{verbatim}
+			
+			\begin{verbatim}
+fthedit d1_Q.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d1.rmf' \
+> longstring=YES
+
+fthedit d1_Q.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d1.mrf' \
+> longstring=YES
+			\end{verbatim}
+			
+			\begin{verbatim}
+fthedit d1_U.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d1.rmf' \
+> longstring=YES
+
+fthedit d1_U.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d1.mrf' \
+> longstring=YES
+			\end{verbatim}
+		\end{multicols}
+		
+		\textbf{Detector 2:}
+		\begin{multicols}{3}
+			\begin{verbatim}
+fthedit d2_I.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d2.rmf' \
+> longstring=YES
+
+fthedit d2_I.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d2.arf' \
+> longstring=YES
+			\end{verbatim}
+			
+			\begin{verbatim}
+fthedit d2_Q.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d2.rmf' \
+> longstring=YES
+
+fthedit d2_Q.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d2.mrf' \
+> longstring=YES
+			\end{verbatim}
+			
+			\begin{verbatim}
+fthedit d2_U.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d2.rmf' \
+> longstring=YES
+
+fthedit d2_U.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d2.mrf' \
+> longstring=YES
+			\end{verbatim}
+		\end{multicols}
+		
+		\newpage
+		\textbf{Detector 3:}
+		\begin{multicols}{3}
+			\begin{verbatim}
+fthedit d3_I.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d3.rmf' \
+> longstring=YES
+
+fthedit d3_I.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d3.arf' \
+> longstring=YES
+			\end{verbatim}
+			
+			\begin{verbatim}
+fthedit d3_Q.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d3.rmf' \
+> longstring=YES
+
+fthedit d3_Q.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d3.mrf' \
+> longstring=YES
+			\end{verbatim}
+			
+			\begin{verbatim}
+fthedit d3_U.src \
+> keyword=RESPFILE \
+> operation=add \
+> value='d3.rmf' \
+> longstring=YES
+
+fthedit d3_U.src \
+> keyword=ANCRFILE \
+> operation=add \
+> value='d3.mrf' \
+> longstring=YES
+			\end{verbatim}
+		\end{multicols}
+	
+	\subsubsection*{Analyzing data in Xspec}
+		\begin{enumerate}[I.]
+			\item Loading into data and plot groups
+			\begin{verbatim}
+XSPEC12>data 1:1 d1_I.src
+XSPEC12>data 1:2 d1_Q.src
+XSPEC12>data 1:3 d1_U.src
+
+XSPEC12>data 2:4 d2_I.src
+XSPEC12>data 2:5 d2_Q.src
+XSPEC12>data 2:6 d2_U.src
+
+XSPEC12>data 3:7 d3_I.src
+XSPEC12>data 3:8 d3_Q.src
+XSPEC12>data 3:9 d3_U.src
+			\end{verbatim}
+			
+			\item Plotting the $I$ spectra alone
+			\begin{verbatim}
+XSPEC12>plot 1 4 7 data
+			\end{verbatim}
+		\end{enumerate}
