@@ -1,0 +1,73 @@
+\newpage
+\newday{2026-06-24}
+	Roadmap for replicating the results of \href{https://www.aanda.org/articles/aa/pdf/2024/08/aa50207-24.pdf}{Bobrikova \textit{et al.} (2024)}:
+	\begin{enumerate}
+		\item Setup of the data and environment
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{p{0.7\textwidth}cc}
+				\toprule
+				\textbf{Task} && \textbf{Status} \\
+				\toprule
+				{\pt{}To download IXPE data for ObsID 03001101 (25 Feb. 2024)} && {Complete} \\
+				{\pt{}To install \verb|ixpeobssim| and HEASoft} && {Complete} \\
+				{\pt{}To update \verb|CALDB| to the version released on 28 Feb. 2024} && {Complete} \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+		
+		\item Pre-processing of the IXPE data
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{p{0.7\textwidth}cc}
+				\toprule
+				\textbf{Task} && \textbf{Status} \\
+				\toprule
+				{\pt{}To create a source extraction region of 100'' centred at GX 13+1} && {Complete} \\
+				{\pt{}To refrain from background photon extraction because GX 13+1 is a very bright source} && {} \\
+				{\pt{}To focus analysis on the 2--8 keV energy band} && {} \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+		
+		\item Generation of lightcurves and hardness analysis
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{p{0.7\textwidth}cc}
+				\toprule
+				\textbf{Task} && \textbf{Status} \\
+				\toprule
+				{\pt{}To use the \verb|xpbin| tool with the \verb|LC| algorithm by grouping the three IXPE DUs and using 200 s time bins} && {} \\
+				{\pt{}To calculate the ratio of counts in the 4--8 keV band to the 2--4 keV band over time to replicate the bottom panel of Fig. 1} && {} \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+		
+		\newpage
+		\item Model-independent analysis: using \verb|PCUBE| algorithm in \verb|xpbin| to calculate the average polarization
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{p{0.7\textwidth}cc}
+				\toprule
+				\textbf{Task} && \textbf{Status} \\
+				\toprule
+				{\pt{}To split the 90 ks observation into five equal 9.5-hour bins to check for variability in the normalized Stokes parameters ($q$ and $u$)} && {} \\
+				{\pt{}To bin the data into energy intervals (e.g., 2--3 keV, 3--4 keV, 4--5.5 keV, and 5.5--8 keV) to see the polarization's energy dependence} && {} \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+		
+		\item Model-dependent analysis: spectro-polarimetric fitting using XSPEC
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{p{0.7\textwidth}cc}
+				\toprule
+				\textbf{Task} && \textbf{Status} \\
+				\toprule
+				{\pt{}To perform a joint spectral fit with Swift/XRT data using the model \verb|tbabs*(diskbb+bbodyrad)|} && {} \\
+				{\pt{}To apply the \verb|polconst| model to the entire continuum to find the average values} && {} \\
+				{\pt{}To use the \verb|pollin| model to estimate how polarization degree (PD) and angle (PA) change with energy} && {} \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+	\end{enumerate}
